@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form action="" id="submit">
+        <input type="number" id="a" required>
+        <select name="select" id="select">
+            <option value="plus">+</option>
+            <option value="minus">-</option>
+            <option value="multiply">*</option>4
+            <option value="divide">/</option>
+        </select>
+        <input type="number" id="b" required>
+        <input type="submit" value="Submit">
+    </form>
+    <p id="result"></p>
+</body>
+<script>
+    const form = document.getElementById('submit');
+    const resultEl = document.getElementById('result');
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const a = parseFloat(document.getElementById('a').value);
+        const b = parseFloat(document.getElementById('b').value);
+
+        const select = document.getElementById('select').value;
+        let result = '';
+        switch (select) {
+            case 'plus':
+                result = 'http://localhost:3000/sum';
+                break;
+            case 'minus':
+                result = 'http://localhost:3000/subtrac';
+                break;
+            case 'multiply':
+                result = 'http://localhost:3000/multi';
+                break;
+            case 'divide':
+                result = 'http://localhost:3000/divisi';
+                break;
+            default:
+                resultEl.innerText = 'Invalid operation';
+                return;
+        }
+        try {
+            const res = await fetch(result, {
+                method: 'POST',
+                body: JSON.stringify({
+                    a: a,
+                    b: b
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const data = await res.json();
+            if (!res.ok || data.err) {
+                resultEl.innerText = data.err || 'Error occurred';
+            } else {
+                resultEl.innerText = data.result;
+            }
+        } catch (err) {
+            resultEl.innerHTML = err;
+        }
+    })
+</script>
+
+</html>
