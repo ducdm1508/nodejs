@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hihihhi</title>
+</head>
+
+<body>
+    <h1>Product</h1>
+
+    <form id="form">
+        <input type="hidden" id="id" />
+        <div>
+            <label for="title">Title:</label>
+            <input type="text" id="title" required>
+        </div>
+        <div>
+            <label for="price">Price:</label>
+            <input type="number" id="price" required>
+        </div>
+        <div>
+            <label for="qty">Quantity:</label>
+            <input type="number" id="qty" required>
+        </div>
+        <button id="addproduct" type="submit">Add</button>
+        <button id="reset">reset</button>
+    </form>
+
+    <h2>Lít</h2>
+    <table border="1" id="table">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>title</th>
+                <th>price</th>
+                <th>qty</th>
+                <th>date</th>
+                <th>action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        const API_URL = 'http://localhost:3000/products';
+
+        const form = document.querySelector('#form');
+        const addProductBtn = document.querySelector('#addproduct');
+        const titleInput = document.querySelector('#title');
+        const priceInput = document.querySelector('#price');
+        const qtyInput = document.querySelector('#qty');
+        const idInput = document.querySelector('#id');
+        const tbody = document.querySelector('#table tbody');
+
+        let isEditing = false;
+
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const title = titleInput.value.trim();
+            const price = parseFloat(priceInput.value);
+            const qty = parseInt(qtyInput.value);
+            const iDate = new Date().toISOString();
+
+            const product = { title, price, iDate, qty };
+
+            try {
+                let url = API_URL;
+                let method = 'POST';
+
+                if (isEditing && idInput.value) {
+                    url = `${API_URL}/${idInput.value}`;
+                    method = 'PUT';
+                }
+
+                const res = await fetch(url, {
+                    method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(product)
+                });
+
+                if (res.ok) {
+                    alert(isEditing ? 'update ok' : 'add ok!');
+                    resetForm();
+                    fetchProducts();
+                } else {
+                    const error = await res.json();
+                }
+            } catch (err) {
+                console.error('Error:', err);
+            }
+        });
+
+
+
+        const resetForm = () => {
+            titleInput.value = '';
+            priceInput.value = '';
+            qtyInput.value = '';
+            idInput.value = '';
+            isEditing = false;
+            addProductBtn.textContent = 'Add';
+        }
+
+        document.getElementById('reset').addEventListener('click', resetForm);
+
+        async function editProduct(id) {
+            try {
+                const res = await fetch(`${API_URL}/${id}`);
+                if (!res.ok) throw new Error('not found');
+
+                const product = await res.json();
+
+                titleInput.value = product.title;
+                priceInput.value = product.price;
+                qtyInput.value = product.qty;
+                idInput.value = product.id;
+                isEditing = true;
+                addProductBtn.textContent = 'Update';
+            } catch (err) {
+                console.error('eror', err);
+            }
+        }
+
+
+        async function deleteProduct(id) {
+            if (confirm('do you want xoá?')) {
+                try {
+                    const res = await fetch(`${API_URL}/${id}`, {
+                        method: 'DELETE'
+                    });
+
+                    if (res.ok) {
+                        alert('delete!');
+                        fetchProducts();
+                    } else {
+                        const error = await res.json();
+                        alert(error.error || 'not deleted!');
+                    }
+                } catch (err) {
+                    console.error('error', err);
+                }
+            }
+        }
+
+
+        async function fetchProducts() {
+            try {
+                const res = await fetch(API_URL);
+                const products = await res.json();
+                tbody.innerHTML = '';
+
+                products.forEach(product => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${product.id}</td>
+                        <td>${product.title}</td>
+                        <td>${product.price}</td>
+                        <td>${product.qty}</td>
+                        <td>${new Date(product.iDate).toLocaleString()}</td>
+                        <td>
+                          <button onclick="editProduct(${product.id})">edit</button>
+                          <button onclick="deleteProduct(${product.id})">del</button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (err) {
+                console.error('eror', err);
+            }
+        }
+
+        window.onload = fetchProducts;
+    </script>
+</body>
+
+</html>
