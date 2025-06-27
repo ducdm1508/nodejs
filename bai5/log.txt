@@ -1,0 +1,22 @@
+Connection failed: Error: connect ECONNREFUSED ::1:3306Connection failed: Error: Unknown database 'product'Connection successfulConnection successful
+Connection successful
+[6/18/2025 8:38:21 PM] Connection successful
+[6/19/2025 8:17:32 PM] Server is running on port http://localhost:3000
+[6/19/2025 8:17:32 PM] Connection failed: Error: connect ECONNREFUSED ::1:3306
+[6/19/2025 8:17:57 PM] Server is running on port http://localhost:3000
+[6/19/2025 8:17:57 PM] Connection failed: Error: connect ECONNREFUSED ::1:3306
+[6/19/2025 8:18:14 PM] Server is running on port http://localhost:3000
+[6/19/2025 8:18:14 PM] Connection successful
+[6/19/2025 8:25:34 PM] Server is running on port http://localhost:3000
+[6/19/2025 8:25:34 PM] Connection successful
+[6/19/2025 8:26:29 PM] Server is running on port http://localhost:3000
+[6/19/2025 8:26:29 PM] Connection successful
+[6/19/2025 8:29:14 PM] [object Object]
+[6/19/2025 8:34:07 PM] [object Object]
+[6/19/2025 8:34:22 PM] Server is running on port http://localhost:3000
+[6/19/2025 8:34:23 PM] Connection successful
+[6/19/2025 8:34:25 PM] Product inserted successfully: {"productId":9}
+[6/27/2025 10:23:02 AM] Server is running on port http://localhost:3000
+[6/27/2025 10:23:12 AM] Connection failed: Error: connect ETIMEDOUT
+[6/27/2025 10:24:31 AM] Server is running on port http://localhost:3000
+[6/27/2025 10:24:41 AM] Connection failed: Error: connect ETIMEDOUT
