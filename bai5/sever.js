@@ -35,7 +35,6 @@ const logError = (data) => {
     console.log(`${data}`);
 };
 
-// Middleware để ghi log tất cả các request
 app.use((req, res, next) => {
     const logRequest = `Method: ${req.method} | URL: ${req.originalUrl}`;
     logSucess(logRequest);
