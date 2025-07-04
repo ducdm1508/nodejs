@@ -3,8 +3,6 @@ const app = express();
 const port = 3000;
 const mySql = require('mysql2');
 const fs = require('fs');
-const { log } = require('console');
-const { title } = require('process');
 
 const logStream = fs.createWriteStream('log.txt', { flags: 'a' });
 
