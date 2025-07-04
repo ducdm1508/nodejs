@@ -1,9 +1,11 @@
-class getallstudent{
-    constructor(studentRepository){
+class GetAllStudent {
+    constructor(studentRepository) {
         this.studentRepository = studentRepository;
     }
-    execute(){
-        return this.studentRepository.getAllStudent();
+
+    async execute() {
+        return await this.studentRepository.getAllStudent();
     }
 }
-module.exports = getallstudent;
+
+module.exports = GetAllStudent;

@@ -1,14 +1,14 @@
-const student = require('../entity/student.js');
+const Student = require('../../domain/entity/student.js');
 
-class createstudent {
+class CreateStudent {
     constructor(studentRepository) {
         this.studentRepository = studentRepository;
     }
 
-    executor(name, age, address, classroom, courseId = []){
-        const newStudent = new student(name, age, address, classroom, courseId);
-        return this.studentRepository.create(newStudent);
+    async execute(name, age, address, classroom, courseIds = []) {
+        const newStudent = new Student(null,name, age, address, classroom, courseIds);
+        return await this.studentRepository.create(newStudent);
     }
 }
 
-module.exports = createstudent;
+module.exports = CreateStudent;

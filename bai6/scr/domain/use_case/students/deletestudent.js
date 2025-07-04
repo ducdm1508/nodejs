@@ -1,9 +1,11 @@
-class deletestudent {
+class DeleteStudent {
     constructor(studentRepository) {
         this.studentRepository = studentRepository;
     }
-    execute(id) {
-        return this.studentRepository.delete(id);
-    }
 
+    async execute(id) {
+        return await this.studentRepository.delete(id);
+    }
 }
+
+module.exports = DeleteStudent;
